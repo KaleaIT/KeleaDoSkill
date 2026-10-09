@@ -42,9 +42,16 @@ async function pg(): Promise<Sql> {
 export async function readContent(fallback = true): Promise<{ content: Content; revision: number }> {
   if (!storageConfigured()) return { content: defaultContent, revision: 0 };
   try {
-    const row = process.env.DATABASE_URL
-      ? (await (await pg())`SELECT content, revision FROM settings WHERE id=1`)[0]
-      : sqlite().prepare('SELECT content, revision FROM settings WHERE id=1').get();
+    // Keep the awaited client separate from the tagged query. The production
+    // minifier can drop parentheses around a nested await + template call.
+    let row;
+    if (process.env.DATABASE_URL) {
+      const connection = await pg();
+      const rows = await connection`SELECT content, revision FROM settings WHERE id=1`;
+      row = rows[0];
+    } else {
+      row = sqlite().prepare('SELECT content, revision FROM settings WHERE id=1').get();
+    }
     return row ? { content: contentSchema.parse(JSON.parse(row.content as string)), revision: Number(row.revision) } : { content: defaultContent, revision: 0 };
   } catch (error) {
     if (!fallback) throw error;
