@@ -3,7 +3,7 @@ import AxeBuilder from '@axe-core/playwright';
 
 test('landing, mobile menu, course selection, brand and real Telegram links', async ({ page }) => {
   await page.goto('/'); await expect(page.getByRole('heading', { level: 1 })).toHaveText('Освой IT. Создай своё будущее.');
-  await expect(page.getByText('60 000 ₽', { exact: true })).toHaveCount(2); await expect(page.getByText('40 000 ₽', { exact: true })).toHaveCount(2);
+  await expect(page.getByText('50 000 ₽', { exact: true })).toHaveCount(2); await expect(page.getByText('40 000 ₽', { exact: true })).toHaveCount(2);
   await expect(page.locator('a[href="https://t.me/KaleaDoSkill"]').first()).toBeVisible();
   for(const logo of await page.locator('.brand img').all()) await expect(logo).toHaveAttribute('src', '/brand/logo-ruby.webp');
   await expect(page.locator('a[href="https://t.me/darlingpgv"]')).toHaveCount(1); await expect(page.locator('a[href="https://t.me/max777_qa"]')).toHaveCount(1);
