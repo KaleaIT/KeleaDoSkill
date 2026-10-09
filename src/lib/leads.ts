@@ -1,7 +1,10 @@
 import { z } from 'zod';
 import type { Content } from './content';
-import { existsSync } from 'node:fs';
-import path from 'node:path';
+import { documentAssets } from '@/content/document-assets';
+import { legalDocuments } from '@/content/legal/documents';
+import { setting } from './runtime';
+import { storageConfigured } from './db';
+
 export const leadSchema = z.object({
   name: z.string().trim().min(2, 'Введите имя (от 2 символов)').max(80),
   phone: z.string().trim().regex(/^\+?[0-9 ()-]{10,25}$/, 'Проверьте номер телефона').refine(v => v.replace(/\D/g, '').length >= 10 && v.replace(/\D/g, '').length <= 15, 'Проверьте номер телефона'),
@@ -13,14 +16,13 @@ export const leadSchema = z.object({
   website: z.string().max(200),
   startedAt: z.number().int().positive()
 });
-export function documentAvailable(url: string) { return !!url && /^\/documents\/[a-zA-Z0-9_-]+\.pdf$/.test(url) && existsSync(path.join(process.cwd(), 'public', url)); }
-export function bundledLegalDocumentAvailable(document: 'privacy' | 'offer' | 'consent') {
-  return existsSync(path.join(process.cwd(), 'src', 'content', 'legal', `${document}.md`));
-}
+export function documentAvailable(url: string) { return documentAssets.includes(url); }
+export function bundledLegalDocumentAvailable(document: 'privacy' | 'offer' | 'consent') { return !!legalDocuments[document]; }
 export function leadsReady(content: Content) {
   const privacyReady = content.legal.privacy ? documentAvailable(content.legal.privacy) : bundledLegalDocumentAvailable('privacy');
   const consentReady = content.legal.consent ? documentAvailable(content.legal.consent) : bundledLegalDocumentAvailable('consent');
-  return process.env.LEADS_ENABLED === 'true' && !!process.env.TELEGRAM_BOT_TOKEN && !!process.env.TELEGRAM_CHAT_ID && privacyReady && consentReady;
+  const secret = setting('RATE_LIMIT_SECRET') || setting('ADMIN_SESSION_SECRET');
+  return storageConfigured() && !!secret && secret.length >= 32 && setting('LEADS_ENABLED') === 'true' && !!setting('TELEGRAM_BOT_TOKEN') && !!setting('TELEGRAM_CHAT_ID') && privacyReady && consentReady;
 }
 export function telegramMessage(data: z.infer<typeof leadSchema>, title: string) {
   return `Новая заявка KaleaDoSkill\nКурс: ${title}\nИмя: ${data.name}\nТелефон: ${data.phone}\nEmail: ${data.email}\nСвязь: ${data.contact}\nКомментарий: ${data.comment || '—'}\nСогласие: дано, ${new Date().toISOString()}`;

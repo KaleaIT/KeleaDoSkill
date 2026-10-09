@@ -177,7 +177,7 @@ summary::-webkit-details-marker { display: none; }
 .faq-list details:first-child { border-top: 1px solid var(--line); }
 .faq-list summary { display: flex; justify-content: space-between; align-items: center; padding: 23px 0; gap: 22px; font-size: 12px; font-weight: 600; line-height: 1.6; }
 .faq-list summary > span { font-size: 23px; font-weight: 400; color: #746952; transition: transform .2s; }
-details[open] summary > span { transform: rotate(45deg); }
+details[open] > summary > span:last-child { transform: rotate(45deg); }
 .faq-list details > p { font-size: 12px; color: #70695f; line-height: 1.9; padding-bottom: 24px; padding-right: 25px; }
 .apply { background: var(--ivory); border-top: 1px solid #e3dccf; }
 .apply-grid { display: grid; grid-template-columns: 1fr 1.15fr; gap: 70px; }
@@ -279,3 +279,184 @@ fieldset:disabled .button { background: #766760; transform: none; }
 @media (max-width: 380px) { .container { width: calc(100% - 32px); } .hero h1 { font-size: 39px; } .hero-actions { align-items: stretch; flex-direction: column; } .hero-actions .text-link { justify-content: center; } .hero-meta { gap: 8px; font-size: 8px; } .hero-art { height: 315px; } .art-core { font-size: 86px; } .code-lines { font-size: 8px; } .practice-card { padding: 10px; } .practice-card strong { font-size: 9px; } .course-card { padding: 20px; } .course-card h3 { font-size: 24px; } .form-grid { grid-template-columns: 1fr; } .official-telegram { font-size: 10px; gap: 8px; } .additional-contacts { gap: 16px; } }
 @media (max-width: 380px) { .hero-art { height: 345px; } }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation: none !important; transition: none !important; } }
+
+/* KaleaDoSkill: emerald, gold and the original red brand accent. */
+:root { --ink:#edf6f0; --ruby:#e1bd78; --ruby-dark:#f2d399; --gold:#e1bd78; --ivory:#071b16; --muted:#b1c6bb; --line:#315248; }
+body { background:#061611; color:var(--ink); font-size:1rem; }
+.site-header { background:#061611f5; }
+.brand small, .brand-footer small { color:#b1c6bb; font-size:.75rem; }
+.navigation a { font-size:.875rem; }
+.navigation a:hover, .text-link:hover { color:var(--gold); }
+.button { background:var(--gold); color:#10231b; font-size:.875rem; gap:12px; }
+.button:hover { background:#f2d399; }
+.button-small, .header-cta { font-size:.875rem; }
+.menu-toggle { color:#edf6f0; }
+.hero { background:radial-gradient(ellipse at 80% 30%,#123f31 0,transparent 55%),#061611; }
+.hero h1 { font-size:clamp(2.6rem,4.5vw,4.25rem); letter-spacing:-.04em; line-height:1.15; }
+.hero-motto { color:#e1bd78; font-size:1.125rem; }
+.hero-description { font-size:1rem; color:#b1c6bb; max-width:520px; }
+.eyebrow, .section-label { font-family:ui-monospace,monospace; font-size:.75rem; color:#dcc28f; letter-spacing:.12em; }
+.status-dot { background:#c45963; }
+.hero-meta, .hero-bottom { color:#b1c6bb; font-size:.875rem; }
+.hero-bottom { border-color:#315248; }
+.art-grid { background-image:linear-gradient(#e1bd7814 1px,transparent 1px),linear-gradient(90deg,#e1bd7814 1px,transparent 1px); }
+.art-caption,.art-bottom { color:#dcc28f; font: .75rem ui-monospace,monospace; letter-spacing:.06em; }
+.art-caption span { margin-left:15px; }
+.art-core i { color:#c45963; }
+.code-card { background:#081b16; border-color:#416052; box-shadow:0 24px 70px #0005; }
+.code-card-top,.code-result { font-size:.75rem; color:#b1c6bb; }
+.code-lines { font-size:.875rem; grid-template-columns:23px 1fr; padding:20px 15px; }
+.practice-card { background:#12352b; border-color:#416052; }
+.practice-icon { background:#1c4435; color:#e1bd78; }
+.practice-card strong { font-size:.875rem; }
+.practice-card small { color:#b1c6bb; font-size:.75rem; }
+.section { border-top:1px solid #9f85453f; background:linear-gradient(180deg,#0b241c,#081e17 140px); }
+.benefits,.included,.faq { background:linear-gradient(180deg,#0d2a20,#081e17 140px); }
+.courses,.payment,.apply { background:linear-gradient(180deg,#102f25,#09231b 180px); }
+h2 { letter-spacing:-.035em; }
+.section-heading > p,.benefit-card p,.course-description,.included-description,.notion-note p,.payment-card > p,.faq-grid > div:first-child > p,.faq-list p,.apply-copy > p { color:#b1c6bb; font-size:1rem; }
+.benefit-grid { border:0; border-radius:0; }
+.benefit-card { padding:26px 21px 30px; }
+.benefit-card h3 { font-size:1rem; }
+.benefit-top > span,.section-label > span { color:#dcc28f; font-size:.75rem; }
+.section-label > span { border-color:#416052; }
+.muted-heading { color:#9ab4a6; }
+.course-card,.course-python { background:#0e3025; border-color:#416052; }
+.course-qa { background:#0b281f; }
+.course-tag,.course-qa .course-tag { color:#e1bd78; border-color:#807044; font-size:.75rem; }
+.course-symbol,.course-qa .course-symbol { color:#e1bd78; }
+.course-duration { color:#c9d9ce; font-size:.875rem; }
+.course-duration > span { color:#b1c6bb; font-size:.75rem; }
+.course-divider { background:#416052; }
+.course-card h4 { color:#dcc28f; font-size:.875rem; }
+.skills { font-size:.875rem; color:#edf6f0; }
+.skills li { font-size:.875rem; }
+.course-project { color:#c9d9ce; background:#173d2f; font-size:.875rem; }
+.course-price small { color:#b1c6bb; font-size:.875rem; }
+.course-price strong { color:#edf6f0; }
+.course-support,.course-format { color:#b1c6bb; font-size:.875rem; line-height:1.8; margin-top:20px; }
+.course-format { margin-top:8px; }
+.section-note { color:#b1c6bb; font-size:.875rem; flex-wrap:wrap; }
+.section-note a { color:#e1bd78; }
+.included h2 span { color:#e1bd78; }
+.included-item h3 { font-size:1rem; }
+.included-item > span { color:#dcc28f; font-size:.875rem; }
+.notion-mark { color:#edf6f0; background:#173d2f; border-color:#416052; }
+.payment-prices > div { background:#0e3025; border-color:#416052; font-size:1rem; }
+.payment-prices strong { color:#e1bd78; }
+.payment-card { background:#0e3025; border-color:#416052; }
+.payment-top h3 { font-size:1.125rem; }
+.bank-symbol { background:#1c4435; color:#e1bd78; }
+.payment-status { color:#b1c6bb; font-size:.875rem; }
+.payment-link { color:#e1bd78; font-size:.875rem; }
+.disabled-text { color:#b1c6bb; }
+.payment-details { border-color:#416052; }
+.payment-details summary { color:#edf6f0; font-size:1rem; }
+.payment-details p { color:#b1c6bb; font-size:1rem; }
+.manifesto { background:radial-gradient(ellipse at right,#24583d,transparent 70%),#0c2f22; border-top:1px solid #9f85453f; }
+.manifesto h2 { color:#edf6f0; }
+.manifesto h2 span { color:#e1bd78; }
+.manifesto p { color:#c9d9ce; font-size:1rem; }
+.faq-list summary { font-size:1rem; }
+.apply-telegram { color:#edf6f0; border-color:#416052; }
+.apply-telegram > span { background:#173d2f; color:#e1bd78; }
+.apply-telegram strong { font-size:1rem; }
+.apply-telegram small,.apply-reassurance { color:#b1c6bb; font-size:.875rem; }
+.lead-form,.form-success { background:#0e3025; border-color:#416052; }
+.form-field { color:#edf6f0; font-size:.875rem; }
+.form-field input,.form-field textarea,.form-field select { background:#081e17; border-color:#547465; color:#edf6f0; font-size:1rem; }
+input::placeholder,textarea::placeholder { color:#aac0b2; opacity:1; }
+.optional,.consent,.form-footnote { color:#b1c6bb; font-size:.875rem; }
+.form-notice { background:#173d2f; color:#c9d9ce; font-size:.875rem; }
+.form-notice a { color:#f2d399; }
+.field-error,.form-error { color:#ffb0bd; font-size:.875rem; }
+.form-submit,.telegram-form { font-size:.875rem; }
+.footer { background:#04110c; }
+.footer-motto,.footer-label,.additional-label,.footer-bottom,.footer-disclaimer,.additional-contacts,.official-telegram { font-size:.875rem; }
+.legal-page p { color:#b1c6bb; }
+.legal-document article { background:#0e3025; border-color:#416052; }
+.legal-document article p,.legal-document article ul,.legal-document article ol { color:#c9d9ce; }
+.legal-document article a { color:#f2d399; }
+.admin-login,.admin-card { background:#0e3025; }
+.admin-tabs button,.admin-secondary { background:#173d2f; color:#edf6f0; font-size:.875rem; }
+.admin-tabs button[aria-selected='true'] { background:#e1bd78; color:#10231b; }
+.admin-login p,.admin-help,.admin-warning,.admin-card .form-field { font-size:.875rem; }
+.quiz-grid { display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center; }
+.quiz-intro { color:#b1c6bb; font-size:1rem; margin-top:24px; }
+.quiz-terminal { background:#041710; border:1px solid #547465; border-radius:12px; overflow:hidden; box-shadow:0 20px 70px #0003; }
+.quiz-bar { display:flex; justify-content:space-between; padding:16px 24px; border-bottom:1px solid #315248; color:#b1c6bb; font:.75rem ui-monospace,monospace; }
+.quiz-terminal pre { margin:0; padding:32px 24px; font:clamp(.875rem,1.3vw,1rem)/1.9 ui-monospace,monospace; white-space:pre-wrap; overflow-wrap:anywhere; }
+.code-keyword { color:#ecc783; }
+.code-string { color:#abd9bc; }
+.quiz-terminal fieldset { border:0; margin:0; padding:0 24px; min-width:0; }
+.quiz-terminal legend { font-size:1rem; font-weight:600; margin-bottom:18px; }
+.quiz-options { display:grid; gap:10px; }
+.quiz-options button { display:flex; align-items:center; text-align:left; gap:16px; padding:14px 16px; min-height:48px; background:#0d2d21; color:#edf6f0; border:1px solid #416052; border-radius:6px; font-size:.875rem; }
+.quiz-options button span { color:#e1bd78; font:.75rem ui-monospace,monospace; }
+.quiz-options button:hover,.quiz-options .selected { border-color:#e1bd78; background:#1a402f; }
+.quiz-feedback { margin:20px 24px; color:#c9d9ce; font-size:.875rem; line-height:1.7; min-height:24px; }
+.quiz-reset { color:#e1bd78; background:transparent; padding:0 24px 24px; text-decoration:underline; font-size:.875rem; }
+.course-payment { border-top:1px solid #416052; margin-top:24px; }
+.course-payment summary { list-style:none; display:flex; gap:12px; justify-content:space-between; align-items:center; padding:22px 0 4px; font-size:1rem; }
+.course-payment summary::-webkit-details-marker { display:none; }
+.course-payment summary small { display:block; color:#b1c6bb; font-size:.875rem; margin-top:8px; line-height:1.6; }
+.course-payment summary > span:last-child { color:#e1bd78; font-size:1.5rem; }
+.course-payment[open] summary > span:last-child { transform:rotate(45deg); }
+.payment-options { margin-top:22px; font-size:.875rem; line-height:1.8; }
+.payment-options h4 { margin:22px 0 12px; letter-spacing:0; }
+.payment-options p { margin:12px 0; color:#c9d9ce; }
+.payment-options ul { padding-left:20px; color:#c9d9ce; }
+.payment-schedule { display:grid; gap:12px; margin-top:20px; }
+.payment-schedule > div { display:grid; grid-template-columns:100px 1fr; gap:4px 16px; border-bottom:1px solid #315248; padding:12px 0; }
+.payment-schedule small { grid-column:2; color:#b1c6bb; font-size:.875rem; }
+@media (max-width:1150px) { .navigation { gap:14px; } .navigation a,.header-cta { font-size:.875rem; } .header-cta { padding:12px; } }
+@media (max-width:940px) { .navigation { background:#081e17; } .navigation a { font-size:1rem; } .hero-description,.section-heading > p { font-size:1rem; } .code-lines { font-size:.75rem; padding:18px 12px; } .practice-card strong,.practice-card small { font-size:.75rem; } .quiz-grid { gap:32px; } .included-item h3 { font-size:1rem; } }
+@media (max-width:680px) { .hero h1 { font-size:clamp(2.5rem,9vw,3.5rem); letter-spacing:-.04em; } .hero-description,.benefit-card p,.manifesto p,.payment-card > p,.faq-list summary { font-size:1rem; } .hero-motto { font-size:1.125rem; } .hero-meta,.hero-bottom,.section-note,.hero-actions .text-link { font-size:.875rem; } .hero-actions .button,.hero-actions .text-link { font-size:.875rem; } .eyebrow,.section-label,.art-caption,.art-bottom { font-size:.75rem; letter-spacing:.04em; } .hero-art { height:420px; } .code-card { top:51%; width:95%; left:0; } .code-lines { font-size:.75rem; } .practice-card { top:29%; right:0; } .practice-card strong,.practice-card small { font-size:.75rem; } .hero-bottom { flex-wrap:wrap; } .hero-bottom > span,.hero-bottom a { max-width:none; } .quiz-grid { grid-template-columns:1fr; } .quiz-terminal pre { padding:24px 18px; } .quiz-terminal fieldset { padding:0 18px; } .course-card h3 { font-size:1.65rem; letter-spacing:-.025em; } .course-duration > span,.course-tag { font-size:.75rem; } .course-support,.course-format { font-size:.875rem; } .payment-prices > div { font-size:1rem; } .apply-grid { gap:32px; } .form-grid { grid-template-columns:1fr; } .footer-main { gap:32px; } .official-telegram { font-size:.875rem; gap:8px; } .additional-contacts { font-size:.875rem; flex-wrap:wrap; } .quiz-grid h2 { font-size:2rem; } }
+@media (max-width:380px) { .hero-art { height:400px; } .hero-meta { font-size:.875rem; } .code-lines { font-size:.75rem; } .practice-card strong,.practice-card small { font-size:.75rem; } .course-card { padding:20px; } .payment-schedule > div { grid-template-columns:1fr; } .payment-schedule small { grid-column:1; } }
+@media (prefers-reduced-motion:no-preference) { .quiz-terminal { animation:appear .6s ease-out; } @keyframes appear { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } } }
+.skills li { color:#edf6f0; }
+
+/* Keep hero labels clear of the tilted terminal and accordion cards independent. */
+.art-bottom { top:100%; bottom:auto; left:0; width:100%; margin-top:28px; justify-content:center; }
+.hero-art { margin-bottom:64px; }
+.course-grid,.payment-grid { align-items:start; }
+.course-grid > article,.payment-grid > article { min-width:0; }
+.course-payment { width:100%; min-width:0; }
+.course-payment summary > span:first-child { min-width:0; overflow-wrap:anywhere; }
+.course-payment summary > span:last-child { flex:0 0 24px; text-align:center; }
+.course-payment .payment-options { max-height:26rem; overflow-y:auto; overscroll-behavior-y:contain; scrollbar-gutter:stable; padding-right:12px; overflow-wrap:anywhere; }
+.payment-schedule > div { grid-template-columns:minmax(0,100px) minmax(0,1fr); }
+.bank-payment { margin-top:0; margin-bottom:22px; }
+.bank-payment summary { font-size:.875rem; padding-top:16px; }
+.bank-payment summary small { font-size:.75rem; }
+.bank-payment .payment-schedule > div { grid-template-columns:1fr; }
+.bank-payment .payment-schedule small { grid-column:1; }
+.discount-telegram { color:var(--gold); text-decoration:underline; text-underline-offset:4px; }
+@media (max-width:680px) { .hero-art { margin-bottom:64px; } .art-bottom { margin-top:24px; } }
+@media (max-width:380px) { .payment-schedule > div { grid-template-columns:1fr; } }
+/* A clean rounded contour lets the ruby logo sit directly on the site background. */
+.brand img { background:transparent; border-radius:22%; object-fit:contain; }
+.brand img { clip-path:inset(4.5% round 18%); }
+
+/* Shared rows align the course content without moving it when payment opens. */
+@media (min-width:681px) {
+  .course-grid { column-gap:24px; row-gap:0; align-items:stretch; }
+  .course-card { display:grid; grid-template-rows:subgrid; grid-row:span 12; align-content:start; }
+  .course-project { margin-top:0; }
+  .course-payment { align-self:start; }
+}
+.course-payment > summary > span:first-child { transform:none; }
+.course-payment > summary > span:last-child { transition:transform .2s; }
+.course-payment .payment-options {
+  color-scheme:dark;
+  scrollbar-width:thin;
+  scrollbar-color:#a88b55 #173d2f;
+  padding:0 16px 8px 0;
+  border-radius:6px;
+}
+.payment-options::-webkit-scrollbar { width:8px; }
+.payment-options::-webkit-scrollbar-track { background:#173d2f; border-radius:8px; }
+.payment-options::-webkit-scrollbar-thumb { background:#a88b55; border:2px solid #173d2f; border-radius:8px; }
+.payment-options::-webkit-scrollbar-thumb:hover { background:#e1bd78; }
+.payment-options::-webkit-scrollbar-button { display:none; }
+@media (prefers-reduced-motion:reduce) { .course-payment > summary > span:last-child { transition:none; } }
