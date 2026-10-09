@@ -1,10 +1,29 @@
 import { setting } from '@/lib/runtime';
 import { NextRequest, NextResponse } from 'next/server';
 import { readContent } from '@/lib/db';
-import { leadSchema, leadsReady, telegramMessage } from '@/lib/leads';
+import { leadSchema, leadsReady, leadSetupIssues, telegramMessage } from '@/lib/leads';
+import { defaultContent } from '@/lib/content';
 import { limit, sameOrigin } from '@/lib/security';
 import { storageConfigured } from '@/lib/db';
 export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+// Only names of missing settings are exposed, never their values or DB errors.
+// Checking setup does not send Telegram messages or submit an application.
+export async function GET() {
+  let content = defaultContent;
+  let databaseUnavailable = false;
+  if (storageConfigured()) {
+    try { content = (await readContent(false)).content; }
+    catch { databaseUnavailable = true; }
+  }
+  const issues = leadSetupIssues(content);
+  if (databaseUnavailable) issues.push('База Neon недоступна: проверьте DATABASE_URL и подключение проекта');
+  return NextResponse.json({
+    ready: issues.length === 0,
+    message: issues.length ? 'Форма ещё не готова. Исправьте перечисленные настройки в Production и сделайте Redeploy.' : 'Форма подключена. Проверьте доставку одной тестовой заявки.',
+    issues,
+  }, { headers: { 'Cache-Control': 'no-store' } });
+}
 export async function POST(request: NextRequest) {
   if (!sameOrigin(request)) return NextResponse.json({ error: 'Недопустимый источник запроса' }, { status: 403 });
   if (!storageConfigured()) return NextResponse.json({ error: 'Форма пока не подключена. Напишите в официальный Telegram.' }, { status: 503 });
@@ -25,9 +44,9 @@ export async function POST(request: NextRequest) {
   if (!course && data.course !== 'undecided') return NextResponse.json({ error: 'Выберите доступный курс' }, { status: 400 });
   if (!leadsReady(content)) return NextResponse.json({ error: 'Форма пока не подключена. Напишите в официальный Telegram.' }, { status: 503 });
   try {
-    const response = await fetch(`https://api.telegram.org/bot${setting('TELEGRAM_BOT_TOKEN')}/sendMessage`, {
+    const response = await fetch(`https://api.telegram.org/bot${setting('TELEGRAM_BOT_TOKEN')?.trim()}/sendMessage`, {
       method: 'POST', headers: { 'Content-Type': 'application/json' }, signal: AbortSignal.timeout(10000),
-      body: JSON.stringify({ chat_id: setting('TELEGRAM_CHAT_ID'), text: telegramMessage(data, course?.title || 'Не определился') })
+      body: JSON.stringify({ chat_id: setting('TELEGRAM_CHAT_ID')?.trim(), text: telegramMessage(data, course?.title || 'Не определился') })
     });
     const result = await response.json();
     if (!response.ok || result.ok !== true) throw new Error('Delivery unavailable');

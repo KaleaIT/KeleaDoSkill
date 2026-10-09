@@ -8,7 +8,7 @@ import { defaultContent } from '../../src/lib/content';
 import { closeStorage, consumeLimit, readContent, saveContent, storageConfigured } from '../../src/lib/db';
 import { leadsReady } from '../../src/lib/leads';
 import { sameOrigin } from '../../src/lib/security';
-import { POST } from '../../src/app/api/leads/route';
+import { GET, POST } from '../../src/app/api/leads/route';
 
 process.env.DATABASE_PATH = path.join(mkdtempSync(path.join(tmpdir(), 'kds-vercel-test-')), 'test.sqlite');
 process.env.RATE_LIMIT_SECRET = 'local-test-rate-limit-secret-at-least-32-characters';
@@ -90,4 +90,29 @@ test('production and current Vercel preview origins are accepted, arbitrary prev
     assert.equal(sameOrigin(request(payload,'https://current-deployment.vercel.app')),true);
     assert.equal(sameOrigin(request(payload,'https://other-deployment.vercel.app')),false);
   } finally {delete process.env.SITE_URL;delete process.env.VERCEL;delete process.env.VERCEL_URL;}
+});
+
+test('legacy document links and whitespace in enabled flag do not lock a configured form', async () => {
+  process.env.LEADS_ENABLED=' true \n';
+  process.env.TELEGRAM_BOT_TOKEN='test-only-token';process.env.TELEGRAM_CHAT_ID='-123';
+  try {
+    const migrated=structuredClone(defaultContent);
+    migrated.legal.privacy='/documents/old-privacy.pdf';migrated.legal.consent='/documents/old-consent.pdf';
+    assert.equal(leadsReady(migrated),true);
+    const report=await (await GET()).json();
+    assert.equal(report.ready,true);
+    assert.doesNotMatch(JSON.stringify(report),/test-only-token|-123|local-test-rate-limit-secret/);
+  } finally {process.env.LEADS_ENABLED='false';delete process.env.TELEGRAM_BOT_TOKEN;delete process.env.TELEGRAM_CHAT_ID;}
+});
+
+test('setup report distinguishes missing settings from unavailable database without leaking credentials', async () => {
+  const databaseURL=process.env.DATABASE_URL;
+  process.env.DATABASE_URL='invalid-connection-string-with-private-password';
+  try {
+    const report=await (await GET()).json();
+    assert.equal(report.ready,false);
+    assert.ok(report.issues.some((issue:string)=>issue.startsWith('LEADS_ENABLED:')));
+    assert.ok(report.issues.some((issue:string)=>issue.startsWith('База Neon недоступна:')));
+    assert.doesNotMatch(JSON.stringify(report),/private-password/);
+  } finally {if(databaseURL) process.env.DATABASE_URL=databaseURL;else delete process.env.DATABASE_URL;}
 });

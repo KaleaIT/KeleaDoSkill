@@ -39,7 +39,7 @@ async function pg(): Promise<Sql> {
   return sql;
 }
 
-export async function readContent(): Promise<{ content: Content; revision: number }> {
+export async function readContent(fallback = true): Promise<{ content: Content; revision: number }> {
   if (!storageConfigured()) return { content: defaultContent, revision: 0 };
   try {
     const row = process.env.DATABASE_URL
@@ -47,6 +47,7 @@ export async function readContent(): Promise<{ content: Content; revision: numbe
       : sqlite().prepare('SELECT content, revision FROM settings WHERE id=1').get();
     return row ? { content: contentSchema.parse(JSON.parse(row.content as string)), revision: Number(row.revision) } : { content: defaultContent, revision: 0 };
   } catch (error) {
+    if (!fallback) throw error;
     // Public pages must remain available during a temporary database outage.
     // Mutating routes and lead rate limiting still fail closed independently.
     const code = error && typeof error === 'object' && 'code' in error ? String(error.code) : 'unknown';
