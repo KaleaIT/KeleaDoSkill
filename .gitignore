@@ -7,3 +7,8 @@ data/
 next-env.d.ts
 playwright-report/
 test-results/
+.vercel/
+work/
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal

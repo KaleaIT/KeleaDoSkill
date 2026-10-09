@@ -7,7 +7,7 @@ const config: NextConfig = {
       ? [`${process.env.CODESPACE_NAME}-3000.${process.env.GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN}`]
       : []),
   ],
-  serverExternalPackages: ['node:sqlite'],
+  images: { unoptimized: true },
   async headers() {
     return [{ source: '/:path*', headers: [
       { key: 'X-Content-Type-Options', value: 'nosniff' },
